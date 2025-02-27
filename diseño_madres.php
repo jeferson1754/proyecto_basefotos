@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -210,7 +209,7 @@
             margin-top: 8px;
         }
 
-        .fas {
+        .icono {
             color: #e77fb3;
         }
 
@@ -285,7 +284,7 @@
                         </div>
 
                         <div class="contacto-madres">
-                            <p><i class="fas fa-phone me-2"></i>+56920557548 <i class="fas fa-envelope mx-2"></i>rosamagica113@gmail.com</p>
+                            <p><i class="fas icono fa-phone me-2"></i>+56920557548 <i class="fas icono fa-envelope mx-2"></i>rosamagica113@gmail.com</p>
                             <p class="nota-especial">Con todo nuestro cariño para celebrar a las madres</p>
                         </div>
                     </div>

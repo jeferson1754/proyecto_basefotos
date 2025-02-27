@@ -128,7 +128,7 @@
             color: #666;
         }
 
-        .fas {
+        .icono {
             color: #e91e63;
         }
 
@@ -192,7 +192,7 @@
                         </svg>
 
                         <div class="contacto">
-                            <p><i class="fas fa-phone me-2"></i>+56920557548 <i class="fas fa-envelope mx-2"></i>rosamagica113@gmail.com</p>
+                            <p><i class="fas icono fa-phone me-2"></i>+56920557548 <i class="fas icono fa-envelope mx-2"></i>rosamagica113@gmail.com</p>
                         </div>
                     </div>
 
