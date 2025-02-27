@@ -29,7 +29,7 @@ if ($id_tarjeta) {
 }
 
 // Fecha de emisión formateada
-$fechaEmision = isset($tarjeta['FechaCreacion']) ? date("d/m/Y", strtotime($tarjeta['FechaCreacion'])) : date("d/m/Y");
+$fechaEmision = isset($tarjeta['Fecha_Emision']) ? date("d/m/Y", strtotime($tarjeta['Fecha_Emision'])) : date("d/m/Y");
 ?>
 
 <!DOCTYPE html>
