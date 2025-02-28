@@ -2,25 +2,9 @@
 include('bd.php');
 
 // Consulta para obtener las tarjetas históricas
-$query = "SELECT tarjetas.*, diseños_tarjetas.Clase, diseños_tarjetas.Nombre as DiseñoNombre FROM `tarjetas` INNER JOIN diseños_tarjetas ON tarjetas.ID_Diseño = diseños_tarjetas.ID ORDER BY `tarjetas`.`ID` DESC";
+$query = "SELECT tarjetas.*, diseños_tarjetas.Clase, diseños_tarjetas.Nombre as DiseñoNombre FROM `tarjetas` INNER JOIN diseños_tarjetas ON tarjetas.ID_Diseño = diseños_tarjetas.ID ORDER BY `tarjetas`.`ID` DESC LIMIT 30";
 $resultado = $conexion->query($query);
 
-// Verificar si se ha enviado una solicitud para actualizar las fechas
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
-    $fecha_emision = $_POST['fecha_emision'];
-    $fecha_vencimiento = $_POST['fecha_vencimiento'];
-
-    // Actualizar las fechas en la base de datos
-    $updateQuery = "UPDATE tarjetas_historicas SET fecha_creacion = ?, fecha_vencimiento = ? WHERE id = ?";
-    $stmt = $conexion->prepare($updateQuery);
-    $stmt->bind_param('ssi', $fecha_emision, $fecha_vencimiento, $id);
-    $stmt->execute();
-
-    // Redirigir para evitar que el formulario se envíe nuevamente al actualizar
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
-}
 $total_palabras = 30;
 ?>
 
@@ -38,118 +22,26 @@ $total_palabras = 30;
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <link rel="stylesheet" href="styles.css">
     <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-        }
-
-        .header {
-            background-color: #343a40;
-            color: white;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        .table th {
-            background-color: #343a40;
-            color: white;
-            font-weight: 500;
-            padding: 12px;
-            text-align: left;
-            position: sticky;
-            top: 0;
-        }
-
-        .table td {
-            padding: 12px;
-            vertical-align: middle;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .table tr:hover {
-            background-color: #f1f3f5;
-        }
-
-        .action-buttons .btn {
-            margin-right: 5px;
-        }
-
-        .badge-design {
-            font-size: 85%;
-            padding: 5px 10px;
-            border-radius: 20px;
-        }
-
-        .pagination {
-            margin-top: 20px;
-            justify-content: center;
-        }
-
-        .modal-header {
-            background-color: #343a40;
-            color: white;
-        }
-
-        .truncate {
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: inline-block;
-        }
-
-        .tooltipped {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-            max-height: 100%;
-        }
-
-        @media (max-width: 768px) {
-            .card-container {
-                padding: 15px;
-            }
-
-            .header h2 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <div class="container-fluid">
         <!-- Header section -->
-        <div class="header text-center">
-            <h2><i class="fas fa-id-card me-2"></i>Gestión de Tarjetas</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php'">
+                <i class="fas fa-arrow-left me-2"></i> Volver al Inicio
+            </button>
+            <h2 class="text-center flex-grow-1">
+                <i class="fas fa-id-card me-2"></i>Historial de Tarjetas
+            </h2>
         </div>
 
         <!-- Card section with table -->
         <div class="card-container">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0"><i class="fas fa-history me-2"></i>Historial de Tarjetas</h4>
+                <h4 class="mb-0"></h4>
                 <div class="input-group w-25">
                     <input type="text" class="form-control" id="searchInput" placeholder="Buscar...">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -177,27 +69,15 @@ $total_palabras = 30;
                         if ($resultado->num_rows > 0) {
                             while ($row = $resultado->fetch_assoc()) {
                                 // Determinar clase de diseño para el color del badge
-                                $designClass = isset($row['Clase']) ? strtolower($row['Clase']) : 'secondary';
-                                switch ($designClass) {
-                                    case 'premium':
-                                        $badgeClass = 'bg-warning text-dark';
-                                        break;
-                                    case 'especial':
-                                        $badgeClass = 'bg-info';
-                                        break;
-                                    case 'basico':
-                                        $badgeClass = 'bg-success';
-                                        break;
-                                    default:
-                                        $badgeClass = 'bg-secondary';
-                                }
+                                $badgeClass = getBadgeClass($row['Clase']);
+
                         ?>
                                 <tr>
                                     <td><?php echo $row['ID']; ?></td>
                                     <td class="fw-bold"><?php echo htmlspecialchars($row['Destinatario']); ?></td>
-            
+
                                     <td><?php echo formatearValidez($row['Validez']); ?></td>
-                                    
+
 
                                     <td>
                                         <span class="truncate tooltipped" title="<?php echo htmlspecialchars($row['Tratamiento']); ?>">
@@ -216,7 +96,12 @@ $total_palabras = 30;
                                             ?>
                                         </span>
                                     </td>
-                                    <td><span class="badge <?php echo $badgeClass; ?> badge-design"><?php echo htmlspecialchars($row['DiseñoNombre']); ?></span></td>
+                                    <td>
+                                        <span class="badge  <?php echo $badgeClass; ?> badge-design">
+                                            <?php echo htmlspecialchars($row['DiseñoNombre']); ?>
+                                        </span>
+                                    </td>
+
                                     <td><?php echo htmlspecialchars($row['Fecha_Emision']); ?></td>
                                     <td><?php
                                         // Calcular días restantes
@@ -249,17 +134,21 @@ $total_palabras = 30;
                                             <?php echo date('d-m-Y', strtotime($row['Fecha_Vencimiento'])); ?>
                                         </span><br>
                                         <span class="small fw-medium status-text <?php echo $dias_restantes < 0 ? 'text-danger' : ($dias_restantes <= 7 ? 'text-warning' : 'text-success'); ?>">
-                                            <i class="fas fa-clock me-1"></i>
+                                            <i class="fas fa-clock"></i>
                                             <?php echo $texto_dias; ?>
                                         </span>
                                     </td>
                                     <td class="action-buttons">
                                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal_<?php echo $row['ID']; ?>">
-                                            <i class="fas fa-edit me-1"></i>
+                                            <i class="fas fa-edit"></i>
                                         </button>
                                         <a class="btn btn-secondary btn-sm" href="./descarga.php?id=<?php echo $row['ID']; ?>">
-                                            <i class="fas fa-download me-1"></i>
+                                            <i class="fas fa-download"></i>
                                         </a>
+
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarModal_<?php echo $row['ID']; ?>">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
 
@@ -312,6 +201,40 @@ $total_palabras = 30;
                                         </div>
                                     </div>
                                 </div>
+
+
+                                <!-- Modal Eliminar -->
+                                <div class="modal fade" id="eliminarModal_<?php echo $row['ID']; ?>" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger text-white">
+                                                <h5 class="modal-title">
+                                                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                                                </h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="text-center mb-4">
+                                                    <i class="fas fa-trash-alt fa-4x text-danger mb-3"></i>
+                                                    <h4>¿Estás seguro?</h4>
+                                                    <p>Estás a punto de eliminar la tarjeta para <strong><?php echo htmlspecialchars($row['Destinatario']); ?></strong>.</p>
+                                                    <p class="text-danger"><strong>Esta acción no se puede deshacer.</strong></p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form action="eliminar_carta.php" method="POST">
+                                                    <input type="hidden" name="id" value="<?php echo $row['ID']; ?>">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        <i class="fas fa-times me-1"></i> Cancelar
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fas fa-trash-alt me-1"></i> Sí, Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php
                             }
                         } else {
@@ -328,6 +251,8 @@ $total_palabras = 30;
 
         </div>
     </div>
+
+    <?php include('footer.php'); ?>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -19,3 +19,25 @@ function formatearValidez($meses)
         return "$meses meses";
     }
 }
+
+function getBadgeClass($clase)
+{
+    $badgeClass = "badge-default"; // Valor por defecto, en caso de no coincidir
+
+    switch ($clase) {
+        case 'aniversario':
+            $badgeClass = "badge-aniversario";
+            break;
+        case 'dia-madre':
+            $badgeClass = "badge-dia-madre";
+            break;
+        case 'normal':
+            $badgeClass = "badge-normal";
+            break;
+        case 'cumpleaños':
+            $badgeClass = "badge-cumpleaños";
+            break;
+    }
+
+    return $badgeClass;
+}

@@ -119,13 +119,9 @@ $fechaEmision = date("d/m/Y");
             <?php endif; ?>
         </div>
 
-        <footer class="bg-dark text-white text-center py-3 mt-auto">
-            <div class="container">
-                <p class="mb-0">© <?php echo date('Y'); ?> Masajes "Manos Mágicas" - Todos los derechos reservados</p>
-            </div>
-        </footer>
     </div>
 
+    <?php include('footer.php'); ?>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

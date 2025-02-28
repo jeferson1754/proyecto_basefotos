@@ -119,11 +119,7 @@ $fechaEmision = isset($tarjeta['Fecha_Emision']) ? date("d/m/Y", strtotime($tarj
             <?php endif; ?>
         </div>
 
-        <footer class="bg-dark text-white text-center py-3 mt-auto">
-            <div class="container">
-                <p class="mb-0">© <?php echo date('Y'); ?> Masajes "Manos Mágicas" - Todos los derechos reservados</p>
-            </div>
-        </footer>
+        <?php include('footer.php'); ?>
     </div>
 
     <!-- Bootstrap JS Bundle with Popper -->

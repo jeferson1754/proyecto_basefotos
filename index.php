@@ -180,6 +180,18 @@
             height: 50px;
             z-index: -1;
         }
+
+        .ocultar-celular {
+            display: inline;
+        }
+
+        @media (max-width: 768px) {
+            /*Ocultar en vista celular*/
+
+            .ocultar-celular {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -238,11 +250,22 @@
                             <textarea class="form-control" name="dedication" id="dedication" rows="3" required></textarea>
                         </div>
 
-                        <div class="col-12 text-end mt-4">
-                            <button type="button" class="btn btn-primary" onclick="goToNextScreen(2)">
-                                Siguiente <i class="fas fa-arrow-right ms-1"></i>
-                            </button>
+                        <div class="row mt-4">
+                            <div class="col-md-6 d-flex justify-content-start">
+                                <button type="button" class="btn btn-primary me-2 ocultar-celular" onclick="goToGestion()">
+                                    Historial <i class="fas fa-clock ms-1"></i>
+                                </button>
+                                <button type="button" class="btn btn-success ocultar-celular" onclick="goToNuevoDiseno()">
+                                    Nuevo Diseño <i class="fas fa-plus ms-1"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" onclick="goToNextScreen(2)">
+                                    Siguiente <i class="fas fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
                         </div>
+
                     </form>
                 </div>
 
@@ -369,6 +392,7 @@
             </div>
         </div>
     </div>
+    <?php include('footer.php'); ?>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -529,6 +553,14 @@
             updateProgress(1);
 
             currentScreen = 1;
+        }
+
+        function goToGestion() {
+            window.location.href = "gestion.php";
+        }
+
+        function goToNuevoDiseno() {
+            window.location.href = "nuevo_diseño.php";
         }
     </script>
 </body>
