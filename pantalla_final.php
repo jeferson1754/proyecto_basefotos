@@ -8,9 +8,9 @@ $error = null;
 if ($id_tarjeta) {
     try {
         // Consulta SQL para obtener los datos de la tarjeta por ID
-        $stmt = $db->prepare("SELECT tarjetas.*, diseños_tarjetas.Clase, diseños_tarjetas.Nombre as DiseñoNombre 
+        $stmt = $db->prepare("SELECT tarjetas.*, disenos_tarjetas.Clase
                               FROM `tarjetas`
-                              INNER JOIN diseños_tarjetas ON tarjetas.ID_Diseño = diseños_tarjetas.ID
+                              INNER JOIN disenos_tarjetas ON tarjetas.ID_Diseno = disenos_tarjetas.ID
                               WHERE tarjetas.ID = :id");
         $stmt->bindParam(':id', $id_tarjeta);
         $stmt->execute();
@@ -75,7 +75,7 @@ $fechaEmision = date("d/m/Y");
 
             <?php if ($tarjeta):
 
-                $query = "SELECT * FROM diseños_tarjetas";
+                $query = "SELECT * FROM disenos_tarjetas";
                 $resultado = $conexion->query($query);
 
                 $mapa_diseños = [];

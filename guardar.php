@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // 🔍 1. Verificar si el diseño ya existe en la tabla "diseños_tarjetas"
-    $stmt = $conexion->prepare("SELECT ID FROM diseños_tarjetas WHERE Clase = ?");
+    $stmt = $conexion->prepare("SELECT ID FROM disenos_tarjetas WHERE Clase = ?");
     $stmt->bind_param("s", $diseño);
     $stmt->execute();
     $stmt->store_result();
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->fetch();
     } else {
         // 🎨 2. Si el diseño no existe, insertarlo y obtener su ID
-        $stmt = $conexion->prepare("INSERT INTO diseños_tarjetas (Clase) VALUES (?)");
+        $stmt = $conexion->prepare("INSERT INTO disenos_tarjetas (Clase) VALUES (?)");
         $stmt->bind_param("s", $diseño);
         $stmt->execute();
         $id_diseño = $stmt->insert_id; // Obtener el ID recién insertado
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error de conexión: " . $conexion->connect_error);
     }
 
-    $stmt = $conexion->prepare("INSERT INTO `tarjetas`( `Destinatario`, `Texto`, `Validez`, `ID_Diseño`, `Tratamiento`, `Duracion`, `Fecha_Emision`, `Fecha_Vencimiento`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conexion->prepare("INSERT INTO `tarjetas`( `Destinatario`, `Texto`, `Validez`, `ID_Diseno`, `Tratamiento`, `Duracion`, `Fecha_Emision`, `Fecha_Vencimiento`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssssss", $name, $dedication, $validity, $id_diseño, $tratamiento, $duracion, $fecha_actual, $fecha_mas_3_meses);
 
     if ($stmt->execute()) {

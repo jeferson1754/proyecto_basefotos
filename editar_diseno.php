@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
     }
 
-    $stmt = $conexion->prepare("UPDATE diseños_tarjetas SET Nombre = ?,Clase = ?, Link = ?  WHERE ID = ?");
+    $stmt = $conexion->prepare("UPDATE disenos_tarjetas SET Nombre = ?,Clase = ?, Link = ?  WHERE ID = ?");
     $stmt->bind_param("sssi", $nombre, $clase, $archivo, $id);
 
     if ($stmt->execute()) {

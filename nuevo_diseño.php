@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["imagen"]["tmp_name"], $target_file);
 
     // Guardar en la BD
-    $stmt = $conexion->prepare("INSERT INTO diseños_tarjetas (Nombre, Clase, Link) VALUES (?, ?, ?)");
+    $stmt = $conexion->prepare("INSERT INTO disenos_tarjetas (Nombre, Clase, Link) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $nombre_disenio, $clase, $archivo);
     $stmt->execute();
     $stmt->close();
@@ -140,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="card-body p-0">
                         <?php
-                        $result = $conexion->query("SELECT * FROM diseños_tarjetas ORDER BY ID DESC");
+                        $result = $conexion->query("SELECT * FROM disenos_tarjetas ORDER BY ID DESC");
                         if ($result->num_rows > 0):
                         ?>
                             <div class="table-responsive">

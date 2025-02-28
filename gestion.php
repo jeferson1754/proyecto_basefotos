@@ -2,7 +2,7 @@
 include('bd.php');
 
 // Consulta para obtener las tarjetas históricas
-$query = "SELECT tarjetas.*, diseños_tarjetas.Clase, diseños_tarjetas.Nombre as DiseñoNombre FROM `tarjetas` INNER JOIN diseños_tarjetas ON tarjetas.ID_Diseño = diseños_tarjetas.ID ORDER BY `tarjetas`.`ID` DESC LIMIT 30";
+$query = "SELECT tarjetas.*, disenos_tarjetas.Clase, disenos_tarjetas.Nombre as DisenoNombre FROM `tarjetas` INNER JOIN disenos_tarjetas ON tarjetas.ID_Diseno = disenos_tarjetas.ID ORDER BY `tarjetas`.`ID` DESC LIMIT 30";
 $resultado = $conexion->query($query);
 
 $total_palabras = 30;
@@ -98,7 +98,7 @@ $total_palabras = 30;
                                     </td>
                                     <td>
                                         <span class="badge  <?php echo $badgeClass; ?> badge-design">
-                                            <?php echo htmlspecialchars($row['DiseñoNombre']); ?>
+                                            <?php echo htmlspecialchars($row['DisenoNombre']); ?>
                                         </span>
                                     </td>
 

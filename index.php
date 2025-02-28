@@ -278,7 +278,7 @@
                         <?php
                         include('bd.php');
                         // Consulta para obtener los diseños
-                        $query = "SELECT * FROM diseños_tarjetas";
+                        $query = "SELECT * FROM disenos_tarjetas";
                         $result = $conexion->query($query);
 
                         if ($result->num_rows > 0) {
