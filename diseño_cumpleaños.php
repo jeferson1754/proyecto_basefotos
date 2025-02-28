@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -236,7 +235,7 @@
 
                             <div class="detalles">
                                 <p class="servicio"><?php echo htmlspecialchars($tarjeta['Tratamiento']); ?></p>
-                                <p><strong>Validez:</strong> <?php echo htmlspecialchars($tarjeta['Validez']); ?></p>
+                                <p><strong>Validez:</strong> <?php echo formatearValidez($tarjeta['Validez']); ?></p>
                                 <p><strong>Fecha de emisión:</strong> <?php echo $fechaEmision; ?></p>
                                 <p><strong>Duración:</strong> <?php echo htmlspecialchars($tarjeta['Duracion']); ?></p>
                                 <p><strong>Para:</strong> <?php echo htmlspecialchars($tarjeta['Destinatario']); ?></p>

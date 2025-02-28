@@ -266,7 +266,7 @@
 
                             <div class="detalles-regalo">
                                 <p class="servicio"><?php echo htmlspecialchars($tarjeta['Tratamiento']); ?></p>
-                                <p><strong>Validez:</strong> <?php echo htmlspecialchars($tarjeta['Validez']); ?></p>
+                                <p><strong>Validez:</strong> <?php echo formatearValidez($tarjeta['Validez']); ?></p>
                                 <p><strong>Duración:</strong> <?php echo htmlspecialchars($tarjeta['Duracion']); ?></p>
                                 <p><strong>Para:</strong> <?php echo htmlspecialchars($tarjeta['Destinatario']); ?></p>
                             </div>
